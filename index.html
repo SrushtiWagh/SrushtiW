@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StayEase - Hotel Booking</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f7f7;
+            color: #333;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: #243447;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #f4c95d;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav ul li a:hover {
+            color: #f4c95d;
+        }
+
+        /* HERO */
+        .hero {
+            height: 430px;
+            background:
+                linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* SEARCH BOX */
+        .search-box {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            display: flex;
+            gap: 15px;
+            width: 85%;
+            max-width: 1000px;
+            margin: -40px auto 40px;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .search-box input,
+        .search-box select {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .search-btn {
+            background: #f4c95d;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .search-btn:hover {
+            background: #e5b63e;
+        }
+
+        /* SECTION */
+        .section {
+            width: 86%;
+            margin: 50px auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            color: #243447;
+        }
+
+        .section-title p {
+            margin-top: 8px;
+            color: #777;
+        }
+
+        /* HOTEL CARDS */
+        .hotel-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .hotel-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-7px);
+        }
+
+        .hotel-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .hotel-info {
+            padding: 20px;
+        }
+
+        .hotel-info h3 {
+            color: #243447;
+            margin-bottom: 8px;
+        }
+
+        .location {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .rating {
+            color: #e5a900;
+            margin-bottom: 12px;
+        }
+
+        .price {
+            font-size: 21px;
+            font-weight: bold;
+            color: #243447;
+        }
+
+        .price span {
+            font-size: 13px;
+            color: #777;
+            font-weight: normal;
+        }
+
+        .book-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #243447;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .book-btn:hover {
+            background: #f4c95d;
+            color: #222;
+        }
+
+        /* FEATURES */
+        .features {
+            background: #243447;
+            color: white;
+            padding: 55px 8%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            text-align: center;
+        }
+
+        .feature {
+            padding: 15px;
+        }
+
+        .feature-icon {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .feature h3 {
+            margin-bottom: 8px;
+        }
+
+        .feature p {
+            color: #ddd;
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #182633;
+            color: white;
+            padding: 35px 8%;
+            text-align: center;
+        }
+
+        footer h2 {
+            color: #f4c95d;
+            margin-bottom: 10px;
+        }
+
+        footer p {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .hotel-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+        }
+
+        @media(max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .hero-content h1 {
+                font-size: 34px;
+            }
+
+            .hotel-container {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">StayEase</div>
+
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#hotels">Hotels</a></li>
+            <li><a href="#features">Facilities</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Your Perfect Stay</h1>
+            <p>Comfortable hotels. Beautiful destinations. Easy booking.</p>
+        </div>
+    </section>
+
+
+    <!-- SEARCH -->
+    <div class="search-box">
+
+        <input type="text" id="destination"
+               placeholder="Enter destination">
+
+        <input type="date" id="checkin">
+
+        <input type="date" id="checkout">
+
+        <select id="guests">
+            <option>1 Guest</option>
+            <option>2 Guests</option>
+            <option>3 Guests</option>
+            <option>4 Guests</option>
+            <option>5+ Guests</option>
+        </select>
+
+        <button class="search-btn" onclick="searchHotels()">
+            Search
+        </button>
+
+    </div>
+
+
+    <!-- HOTELS -->
+    <section class="section" id="hotels">
+
+        <div class="section-title">
+            <h2>Popular Hotels</h2>
+            <p>Choose from our handpicked collection of comfortable stays</p>
+        </div>
+
+
+        <div class="hotel-container">
+
+            <!-- HOTEL 1 -->
+            <div class="hotel-card">
+
+                <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=900&q=80">
+
+                <div class="hotel-info">
+
+                    <h3>Royal Palace Hotel</h3>
+
+                    <div class="location">
+                        📍 Mumbai, India
+                    </div>
+
+                    <div class="rating">
+                        ★★★★★ 4.8
+                    </div>
+
+                    <div class="price">
+                        ₹4,999 <span>/ night</span>
+                    </div>
+
+                    <button class="book-btn"
+                            onclick="bookHotel('Royal Palace Hotel')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- HOTEL 2 -->
+            <div class="hotel-card">
+
+                <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=900&q=80">
+
+                <div class="hotel-info">
+
+                    <h3>Grand Horizon</h3>
+
+                    <div class="location">
+                        📍 Goa, India
+                    </div>
+
+                    <div class="rating">
+                        ★★★★★ 4.7
+                    </div>
+
+                    <div class="price">
+                        ₹6,499 <span>/ night</span>
+                    </div>
+
+                    <button class="book-btn"
+                            onclick="bookHotel('Grand Horizon')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- HOTEL 3 -->
+            <div class="hotel-card">
+
+                <img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&w=900&q=80">
+
+                <div class="hotel-info">
+
+                    <h3>Mountain View Resort</h3>
+
+                    <div class="location">
+                        📍 Manali, India
+                    </div>
+
+                    <div class="rating">
+                        ★★★★☆ 4.6
+                    </div>
+
+                    <div class="price">
+                        ₹3,999 <span>/ night</span>
+                    </div>
+
+                    <button class="book-btn"
+                            onclick="bookHotel('Mountain View Resort')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- HOTEL 4 -->
+            <div class="hotel-card">
+
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80">
+
+                <div class="hotel-info">
+
+                    <h3>Ocean Pearl Resort</h3>
+
+                    <div class="location">
+                        📍 Kerala, India
+                    </div>
+
+                    <div class="rating">
+                        ★★★★★ 4.9
+                    </div>
+
+                    <div class="price">
+                        ₹5,999 <span>/ night</span>
+                    </div>
+
+                    <button class="book-btn"
+                            onclick="bookHotel('Ocean Pearl Resort')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- HOTEL 5 -->
+            <div class="hotel-card">
+
+                <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=900&q=80">
+
+                <div class="hotel-info">
+
+                    <h3>The Grand Heritage</h3>
+
+                    <div class="location">
+                        📍 Jaipur, India
+                    </div>
+
+                    <div class="rating">
+                        ★★★★★ 4.8
+                    </div>
+
+                    <div class="price">
+                        ₹4,499 <span>/ night</span>
+                    </div>
+
+                    <button class="book-btn"
+                            onclick="bookHotel('The Grand Heritage')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+
+            <!-- HOTEL 6 -->
+            <div class="hotel-card">
+
+                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=80">
+
+                <div class="hotel-info">
+
+                    <h3>City Lights Hotel</h3>
+
+                    <div class="location">
+                        📍 Delhi, India
+                    </div>
+
+                    <div class="rating">
+                        ★★★★☆ 4.5
+                    </div>
+
+                    <div class="price">
+                        ₹3,499 <span>/ night</span>
+                    </div>
+
+                    <button class="book-btn"
+                            onclick="bookHotel('City Lights Hotel')">
+                        Book Now
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+
+        <div class="feature">
+            <div class="feature-icon">🏨</div>
+            <h3>Best Hotels</h3>
+            <p>Handpicked hotels with excellent facilities.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">💳</div>
+            <h3>Secure Payment</h3>
+            <p>Safe and reliable booking process.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">🔒</div>
+            <h3>Safe Booking</h3>
+            <p>Your booking information is protected.</p>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">📞</div>
+            <h3>24/7 Support</h3>
+            <p>Our support team is always available.</p>
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer id="contact">
+
+        <h2>StayEase</h2>
+
+        <p>
+            Your trusted hotel booking partner.
+        </p>
+
+        <br>
+
+        <p>
+            © 2026 StayEase. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        function searchHotels() {
+
+            let destination =
+                document.getElementById("destination").value;
+
+            let checkin =
+                document.getElementById("checkin").value;
+
+            let checkout =
+                document.getElementById("checkout").value;
+
+            if (destination === "" ||
+                checkin === "" ||
+                checkout === "") {
+
+                alert("Please enter destination and dates.");
+
+            } else {
+
+                alert(
+                    "Searching hotels in " +
+                    destination +
+                    "\\nCheck-in: " +
+                    checkin +
+                    "\\nCheck-out: " +
+                    checkout
+                );
+            }
+        }
+
+
+        function bookHotel(hotelName) {
+
+            alert(
+                "You selected " +
+                hotelName +
+                "!\\n\\nThank you for choosing StayEase."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
